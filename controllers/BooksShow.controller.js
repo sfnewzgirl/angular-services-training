@@ -5,8 +5,8 @@ angular.module('libraryApp')
   remove $http from the controller
   add BookService as a dependency
 *******************************************/
-BooksShowController.$inject=['$routeParams', '$location', '$http'];
-function BooksShowController($routeParams,    $location,   $http) {
+BooksShowController.$inject=['$routeParams', '$location', '$http', 'BookService'];
+function BooksShowController($routeParams,    $location,   $http, BookService) {
   var vm = this;
   var bookId = $routeParams.id;
   // exports
