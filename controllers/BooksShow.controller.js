@@ -18,29 +18,12 @@ function BooksShowController($routeParams,    $location,   $http, BookService) {
   // initialization
   getBook(bookId);
 
-
   function getBook(id) {
-    /*************************************
-      REMOVE $http here -
-      make use of the service instead
-      BookService.get(id).then()
-    **************************************/
-
-    $http({
-      method: 'GET',
-      url: 'https://super-crud.herokuapp.com/books/'+id
-    }).then(onBookShowSuccess, onError);
-
-
-    function onBookShowSuccess(response){
-      console.log('here\'s the data for book', id, ':', response.data);
-      vm.book = response.data;
-    }
-    function onError(error){
-      console.log('there was an error: ', error);
-    }
+    BookService.get(id).then(function(data) {
+      console.log('here is the one book controller', data);
+      vm.book = data;
+    });
   }
-
 
   /*****************************************
   *  THIS FUNCTION HAS ALREADY BEEN
@@ -61,22 +44,12 @@ function BooksShowController($routeParams,    $location,   $http, BookService) {
   }
 
   function deleteBook(book) {
-      console.log('deleting book: ', book);
+    console.log('deleting book: ', book);
+    BookService.remove(book).then(onBookDeleteSuccess);
 
-    /*************************************
-      REMOVE $http here -
-      make use of the service instead
-      BookService.remove(id).then()
-    **************************************/
-
-      $http({
-        method: 'DELETE',
-        url: 'https://super-crud.herokuapp.com/books/' + book._id,
-      }).then(onBookDeleteSuccess);
-
-      function onBookDeleteSuccess(response){
-        console.log('book delete response data:', response.data);
-        $location.path('/');
-      }
+    function onBookDeleteSuccess(book){
+      console.log('book delete response data:', response.data);
+      $location.path('/');
     }
+  }
 }
